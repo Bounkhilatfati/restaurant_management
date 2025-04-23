@@ -1,0 +1,15 @@
+{% extends 'menu/base.html' %}
+{% block content %}
+<h2>New Order</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {{ formset.management_form }}
+    {% for form in formset %}
+        <div class="border p-3 my-2 bg-light rounded">
+            {{ form.as_p }}
+        </div>
+    {% endfor %}
+    <button class="btn btn-primary" type="submit">Submit Order</button>
+</form>
+{% endblock %}

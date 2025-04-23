@@ -1,0 +1,13 @@
+{% extends 'menu/base.html' %}
+{% block content %}
+<h2>Orders</h2>
+<ul class="list-group">
+    {% for order in orders %}
+        <li class="list-group-item">
+            <strong>Order #{{ order.id }}</strong> - Table {{ order.table_number }} <br>
+            <em>Created: {{ order.created_at }}</em><br>
+            <strong>Total: {{ order.total_cost }} TND</strong>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

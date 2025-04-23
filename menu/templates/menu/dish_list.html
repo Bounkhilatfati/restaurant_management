@@ -1,0 +1,21 @@
+{% extends 'menu/base.html' %}
+{% block content %}
+<h2>Dishes</h2>
+<div class="row">
+    {% for dish in dishes %}
+    <div class="col-md-4">
+        <div class="card mb-3">
+            {% if dish.image %}
+            <img src="{{ dish.image.url }}" class="card-img-top" alt="{{ dish.name }}">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ dish.name }}</h5>
+                <p class="card-text">{{ dish.description }}</p>
+                <p><strong>{{ dish.price }} TND</strong></p>
+                <p><span class="badge bg-info">{{ dish.category.name }}</span></p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
