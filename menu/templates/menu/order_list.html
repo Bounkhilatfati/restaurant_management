@@ -2,89 +2,44 @@
 {% load static %}
 {% block content %}
 
-<style>
-    .content {
-        margin: 20px;
-    }
-
-    .order-list {
-        list-style: none;
-        padding: 0;
-    }
-
-    .order-item {
-        background-color: white;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        border-radius: 8px;
-        padding: 20px;
-        margin: 20px 0;
-    }
-
-    .order-details {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-    }
-
-    .order-info {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .order-id {
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-
-    .order-status {
-        color: #888;
-    }
-
-    .customer-name {
-        font-weight: bold;
-    }
-
-    .dishes-list {
-        list-style: none;
-        padding-left: 20px;
-        margin: 0;
-    }
-
-    .dish-item {
-        margin: 5px 0;
-    }
-
-    .order-total {
-        margin-top: 10px;
-        font-weight: bold;
-        color: #333;
-    }
-</style>
-
-<div class="content">
+<div class="container my-4">
     <h1>Orders Overview</h1>
-    <ul class="order-list">
+    <div class="row">
         {% for order in orders %}
-        <li class="order-item">
-            <div class="order-details">
-                <div class="order-info">
-                    <span class="order-id">Order #{{ order.id }}</span>
-                    <span class="order-status">Created: {{ order.created_at }}</span>
+        <div class="col-md-12">
+            <div class="card mb-3 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <h5 class="card-title mb-1">Order #{{ order.id }}</h5>
+                            <small class="text-muted">Created: {{ order.created_at }}</small>
+                        </div>
+                        <div>
+                            <a href="{% url 'order_edit' order.id %}" class="text-primary me-3" title="Modify Order">
+                                <i class="bi bi-pencil-fill"></i>
+                            </a>
+                            <a href="{% url 'order_delete' order.id %}" class="text-danger" title="Delete Order">
+                                <i class="bi bi-trash-fill"></i>
+                            </a>
+                            <span class="badge bg-primary ms-3">Table: {{ order.table_number }}</span>
+                        </div>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        {% for item in order.items.all %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ item.dish.name }} ({{ item.quantity }})
+                            <span class="badge bg-info rounded-pill">{{ item.dish.price }} TND</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="mt-3 fw-bold text-end">
+                        Total: {{ order.total_cost }} TND
+                    </div>
                 </div>
-                <div class="customer-name">Table: {{ order.table_number }}</div>
             </div>
-            <ul class="dishes-list">
-                {% for item in order.items.all %}
-                <li class="dish-item">
-                    {{ item.dish.name }} ({{ item.quantity }}) - Price: {{ item.dish.price }} TND
-                </li>
-                {% endfor %}
-            </ul>
-            <div class="order-total">Total: {{ order.total_cost }} TND</div>
-        </li>
+        </div>
         {% endfor %}
-    </ul>
+    </div>
 </div>
 
 {% endblock %}
