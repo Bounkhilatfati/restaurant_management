@@ -1,16 +1,90 @@
 {% extends 'menu/base.html' %}
+{% load static %}
 {% block content %}
-<h2>Orders</h2>
-<ul class="list-group">
-    {% for order in orders %}
-        <li class="list-group-item">
-            <strong>Order #{{ order.id }}</strong> - Table {{ order.table_number }} <br>
+
+<style>
+    .content {
+        margin: 20px;
+    }
+
+    .order-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .order-item {
+        background-color: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px 0;
+    }
+
+    .order-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .order-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .order-id {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .order-status {
+        color: #888;
+    }
+
+    .customer-name {
+        font-weight: bold;
+    }
+
+    .dishes-list {
+        list-style: none;
+        padding-left: 20px;
+        margin: 0;
+    }
+
+    .dish-item {
+        margin: 5px 0;
+    }
+
+    .order-total {
+        margin-top: 10px;
+        font-weight: bold;
+        color: #333;
+    }
+</style>
+
+<div class="content">
+    <h1>Orders Overview</h1>
+    <ul class="order-list">
+        {% for order in orders %}
+        <li class="order-item">
+            <div class="order-details">
+                <div class="order-info">
+                    <span class="order-id">Order #{{ order.id }}</span>
+                    <span class="order-status">Created: {{ order.created_at }}</span>
+                </div>
+                <div class="customer-name">Table: {{ order.table_number }}</div>
+            </div>
+            <ul class="dishes-list">
                 {% for item in order.items.all %}
-                    {{ item.dish }} ({{ item.quantity }})<br>
+                <li class="dish-item">
+                    {{ item.dish.name }} ({{ item.quantity }}) - Price: {{ item.dish.price }} TND
+                </li>
                 {% endfor %}
-            <em>Created: {{ order.created_at }}</em><br>
-            <strong>Total: {{ order.total_cost }} TND</strong>
+            </ul>
+            <div class="order-total">Total: {{ order.total_cost }} TND</div>
         </li>
-    {% endfor %}
-</ul>
+        {% endfor %}
+    </ul>
+</div>
+
 {% endblock %}
