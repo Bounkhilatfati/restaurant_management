@@ -5,6 +5,9 @@
     {% for order in orders %}
         <li class="list-group-item">
             <strong>Order #{{ order.id }}</strong> - Table {{ order.table_number }} <br>
+                {% for item in order.items.all %}
+                    {{ item.dish }} ({{ item.quantity }})<br>
+                {% endfor %}
             <em>Created: {{ order.created_at }}</em><br>
             <strong>Total: {{ order.total_cost }} TND</strong>
         </li>
