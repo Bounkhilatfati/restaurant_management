@@ -4,12 +4,40 @@
 <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-    {{ formset.management_form }}
-    {% for form in formset %}
-        <div class="border p-3 my-2 bg-light rounded">
-            {{ form.as_p }}
-        </div>
-    {% endfor %}
-    <button class="btn btn-primary" type="submit">Submit Order</button>
+
+    <div id="order-items">
+        {{ formset.management_form }}
+        {% for form in formset %}
+            <div class="order-item border p-3 my-2 bg-light rounded">
+                {{ form.as_p }}
+            </div>
+        {% endfor %}
+    </div>
+
+    <button type="button" class="btn btn-secondary mb-3" id="add-item">Add Another Dish</button>
+    <button type="submit" class="btn btn-primary">Submit Order</button>
 </form>
+
+<script>
+    const addItemButton = document.getElementById('add-item');
+    const orderItemsDiv = document.getElementById('order-items');
+    let totalForms = document.querySelector('#id_form-TOTAL_FORMS');
+
+    addItemButton.addEventListener('click', () => {
+        const formCount = parseInt(totalForms.value);
+        const newForm = orderItemsDiv.querySelector('.order-item').cloneNode(true);
+
+        // Clear values in the new form
+        newForm.querySelectorAll('input, select, textarea').forEach(input => {
+            if (input.type !== 'hidden') {
+                input.value = '';
+            }
+        });
+
+        // Update form index
+        newForm.innerHTML = newForm.innerHTML.replace(/form-(\d)-/g, `form-${formCount}-`);
+        orderItemsDiv.appendChild(newForm);
+        totalForms.value = formCount + 1;
+    });
+</script>
 {% endblock %}
