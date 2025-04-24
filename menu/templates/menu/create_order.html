@@ -1,21 +1,37 @@
 {% extends 'menu/base.html' %}
 {% block content %}
-<h2>New Order</h2>
-<form method="POST">
+<h2>{% if edit %}Edit Order{% else %}New Order{% endif %}</h2>
+<form method="POST" novalidate>
     {% csrf_token %}
-    {{ form.as_p }}
+    <div class="mb-3">
+        {{ form.table_number.label_tag }}
+        {{ form.table_number }}
+        {% if form.table_number.errors %}
+            <div class="text-danger">{{ form.table_number.errors }}</div>
+        {% endif %}
+    </div>
 
     <div id="order-items">
         {{ formset.management_form }}
         {% for form in formset %}
             <div class="order-item border p-3 my-2 bg-light rounded">
-                {{ form.as_p }}
+                {% for field in form.visible_fields %}
+                    <div class="mb-3">
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {% if field.errors %}
+                            <div class="text-danger">{{ field.errors }}</div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
             </div>
         {% endfor %}
     </div>
 
-    <button type="button" class="btn btn-secondary mb-3" id="add-item">Add Another Dish</button>
-    <button type="submit" class="btn btn-primary">Submit Order</button>
+    <div class="d-flex gap-2 mb-3">
+        <button type="button" class="btn btn-secondary" id="add-item">Add Another Dish</button>
+        <button type="submit" class="btn btn-primary">{% if edit %}Update Order{% else %}Submit Order{% endif %}</button>
+    </div>
 </form>
 
 <script>

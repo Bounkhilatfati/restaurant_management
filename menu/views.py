@@ -1,9 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView
 from .models import Category, Dish, Order
 from .forms import CategoryForm, DishForm, OrderForm, OrderItemFormSet
-from django.shortcuts import render, get_object_or_404
-from .models import Order
+
 def home(request):
     return render(request, 'menu/home.html')
 
@@ -43,7 +42,6 @@ def create_order(request):
     return render(request, 'menu/create_order.html', {'form': form, 'formset': formset})
 
 
-
 def order_detail(request, pk):
     order = get_object_or_404(Order, pk=pk)
     items = order.orderitem_set.all()
@@ -54,3 +52,23 @@ def order_detail(request, pk):
         'total': total
     })
 
+def order_edit(request, pk):
+    order = get_object_or_404(Order, pk=pk)
+    if request.method == 'POST':
+        form = OrderForm(request.POST, instance=order)
+        formset = OrderItemFormSet(request.POST, instance=order, prefix='form')
+        if form.is_valid() and formset.is_valid():
+            form.save()
+            formset.save()
+            return redirect('order_list')
+    else:
+        form = OrderForm(instance=order)
+        formset = OrderItemFormSet(instance=order, prefix='form')
+    return render(request, 'menu/create_order.html', {'form': form, 'formset': formset, 'edit': True})
+
+def order_delete(request, pk):
+    order = get_object_or_404(Order, pk=pk)
+    if request.method == 'POST':
+        order.delete()
+        return redirect('order_list')
+    return render(request, 'menu/order_confirm_delete.html', {'order': order})
