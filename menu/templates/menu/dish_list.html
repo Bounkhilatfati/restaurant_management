@@ -4,12 +4,12 @@
 <div class="row">
     {% for dish in dishes %}
     <div class="col-md-4">
-        <div class="card mb-3 d-flex flex-row justify-content-between align-items-center" style="height: 180px;">
+        <div class="card mb-3 d-flex flex-row justify-content-between align-items-center shadow-sm border-0"style="background-color: #F5DEB3;" style="height: 180px; " >
             <div class="card-body d-flex flex-column justify-content-center" style="flex: 1; overflow: hidden;">
-                <h5 class="card-title text-truncate">{{ dish.name }}</h5>
-                <p class="card-text text-truncate" style="max-height: 60px; overflow: hidden;">{{ dish.description }}</p>
-                <p><strong>{{ dish.price }} TND</strong></p>
-                <p><span class="badge bg-info">{{ dish.category.name }}</span></p>
+                <h5 class="card-title text-truncate" style="color: #2E2E2E;">{{ dish.name }}</h5>
+                <p class="card-text text-truncate" style="max-height: 60px; overflow: hidden;" style="color: #2E2E2E;">{{ dish.description }}</p>
+                <p class="mb-1"><strong style="color: #DAA520;">{{ dish.price }} TND</strong></p>
+                <p><span class="badge" style="background-color: #A0522D; color: #FFFDF7;">{{ dish.category.name }}</span></p>
             </div>
             {% if dish.image %}
             <img src="{{ dish.image.url }}" alt="{{ dish.name }}" style="width: 150px; height: 180px; object-fit: cover; margin-left: 15px;">

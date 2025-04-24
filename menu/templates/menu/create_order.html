@@ -1,6 +1,6 @@
 {% extends 'menu/base.html' %}
 {% block content %}
-<h2>{% if edit %}Edit Order{% else %}New Order{% endif %}</h2>
+<h2 class="mb-4" style="color: #A0522D;">{% if edit %}Edit Order{% else %}New Order{% endif %}</h2>
 <form method="POST" novalidate>
     {% csrf_token %}
     <div class="mb-3">
@@ -14,7 +14,7 @@
     <div id="order-items">
         {{ formset.management_form }}
         {% for form in formset %}
-            <div class="order-item border p-3 my-2 bg-light rounded">
+            <div class="order-item border p-3 my-3 rounded" style="background-color: #F5DEB3;"> <!-- Cornsilk -->
                 {% for field in form.visible_fields %}
                     <div class="mb-3">
                         {{ field.label_tag }}
@@ -29,8 +29,12 @@
     </div>
 
     <div class="d-flex gap-2 mb-3">
-        <button type="button" class="btn btn-secondary" id="add-item">Add Another Dish</button>
-        <button type="submit" class="btn btn-primary">{% if edit %}Update Order{% else %}Submit Order{% endif %}</button>
+        <button type="button" class="btn" id="add-item" style="background-color: #A0522D; color: white;">
+            Add Another Dish
+        </button>
+        <button type="submit" class="btn" style="background-color: #DAA520; color: white;">
+            {% if edit %}Update Order{% else %}Submit Order{% endif %}
+        </button>
     </div>
 </form>
 
