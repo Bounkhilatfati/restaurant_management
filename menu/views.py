@@ -58,9 +58,19 @@ def order_edit(request, pk):
         form = OrderForm(request.POST, instance=order)
         formset = OrderItemFormSet(request.POST, instance=order, prefix='form')
         if form.is_valid() and formset.is_valid():
+            items = formset.save(commit=False)
+            for item in items:
+                if not item.order_id:
+                    item.order = order
+                item.save()
+            formset.save()  # Save deletions and other changes
             form.save()
-            formset.save()
             return redirect('order_list')
+        else:
+            # Debugging: print form and formset errors
+            print("Form errors:", form.errors)
+            print("Formset errors:", formset.errors)
+            return render(request, 'menu/create_order.html', {'form': form, 'formset': formset, 'edit': True})
     else:
         form = OrderForm(instance=order)
         formset = OrderItemFormSet(instance=order, prefix='form')

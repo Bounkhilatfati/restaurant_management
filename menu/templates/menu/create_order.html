@@ -24,6 +24,17 @@
                         {% endif %}
                     </div>
                 {% endfor %}
+                {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
+                {% if form.can_delete %}
+                    <div class="form-check mb-3">
+                        {{ form.DELETE }}
+                        <label class="form-check-label" for="{{ form.DELETE.id_for_label }}">
+                            Delete this item
+                        </label>
+                    </div>
+                {% endif %}
             </div>
         {% endfor %}
     </div>
@@ -45,17 +56,21 @@
 
     addItemButton.addEventListener('click', () => {
         const formCount = parseInt(totalForms.value);
+        console.log("Current TOTAL_FORMS:", formCount);
         const newForm = orderItemsDiv.querySelector('.order-item').cloneNode(true);
 
         // Clear values in the new form
         newForm.querySelectorAll('input, select, textarea').forEach(input => {
-            if (input.type !== 'hidden') {
+            if (input.type === 'hidden' && input.name.includes('id')) {
+                input.value = '';
+            } else if (input.type !== 'hidden') {
                 input.value = '';
             }
         });
 
         // Update form index
         newForm.innerHTML = newForm.innerHTML.replace(/form-(\d)-/g, `form-${formCount}-`);
+        console.log("New form HTML snippet:", newForm.innerHTML.substring(0, 200));
         orderItemsDiv.appendChild(newForm);
         totalForms.value = formCount + 1;
     });
