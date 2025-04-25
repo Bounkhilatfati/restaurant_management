@@ -24,6 +24,9 @@ class OrderListView(ListView):
     template_name = 'menu/order_list.html'
     context_object_name = 'orders'
 
+    def get_queryset(self):
+        return Order.objects.all().order_by('-created_at')
+
 
 def create_order(request):
     if request.method == 'POST':
