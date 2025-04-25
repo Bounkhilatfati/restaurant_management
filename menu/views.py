@@ -82,3 +82,31 @@ def order_delete(request, pk):
         order.delete()
         return redirect('order_list')
     return render(request, 'menu/order_confirm_delete.html', {'order': order})
+
+def dish_create(request):
+    if request.method == 'POST':
+        form = DishForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('dish_list')
+    else:
+        form = DishForm()
+    return render(request, 'menu/dish_form.html', {'form': form})
+
+def dish_edit(request, pk):
+    dish = get_object_or_404(Dish, pk=pk)
+    if request.method == 'POST':
+        form = DishForm(request.POST, request.FILES, instance=dish)
+        if form.is_valid():
+            form.save()
+            return redirect('dish_list')
+    else:
+        form = DishForm(instance=dish)
+    return render(request, 'menu/dish_form.html', {'form': form, 'dish': dish})
+
+def dish_delete(request, pk):
+    dish = get_object_or_404(Dish, pk=pk)
+    if request.method == 'POST':
+        dish.delete()
+        return redirect('dish_list')
+    return render(request, 'menu/dish_confirm_delete.html', {'dish': dish})
