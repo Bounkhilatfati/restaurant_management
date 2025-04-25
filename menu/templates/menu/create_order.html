@@ -1,6 +1,6 @@
 {% extends 'menu/base.html' %}
 {% block content %}
-<h2>{% if edit %}Edit Order{% else %}New Order{% endif %}</h2>
+<h2 class="mb-4" style="color: #A0522D;">{% if edit %}Edit Order{% else %}New Order{% endif %}</h2>
 <form method="POST" novalidate>
     {% csrf_token %}
     <div class="mb-3">
@@ -14,7 +14,7 @@
     <div id="order-items">
         {{ formset.management_form }}
         {% for form in formset %}
-            <div class="order-item border p-3 my-2 bg-light rounded">
+            <div class="order-item border p-3 my-3 rounded" style="background-color: #F5DEB3;"> <!-- Cornsilk -->
                 {% for field in form.visible_fields %}
                     <div class="mb-3">
                         {{ field.label_tag }}
@@ -24,13 +24,28 @@
                         {% endif %}
                     </div>
                 {% endfor %}
+                {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
+                {% if form.can_delete %}
+                    <div class="form-check mb-3">
+                        {{ form.DELETE }}
+                        <label class="form-check-label" for="{{ form.DELETE.id_for_label }}">
+                            Delete this item
+                        </label>
+                    </div>
+                {% endif %}
             </div>
         {% endfor %}
     </div>
 
     <div class="d-flex gap-2 mb-3">
-        <button type="button" class="btn btn-secondary" id="add-item">Add Another Dish</button>
-        <button type="submit" class="btn btn-primary">{% if edit %}Update Order{% else %}Submit Order{% endif %}</button>
+        <button type="button" class="btn" id="add-item" style="background-color: #A0522D; color: white;">
+            Add Another Dish
+        </button>
+        <button type="submit" class="btn" style="background-color: #DAA520; color: white;">
+            {% if edit %}Update Order{% else %}Submit Order{% endif %}
+        </button>
     </div>
 </form>
 
@@ -41,17 +56,21 @@
 
     addItemButton.addEventListener('click', () => {
         const formCount = parseInt(totalForms.value);
+        console.log("Current TOTAL_FORMS:", formCount);
         const newForm = orderItemsDiv.querySelector('.order-item').cloneNode(true);
 
         // Clear values in the new form
         newForm.querySelectorAll('input, select, textarea').forEach(input => {
-            if (input.type !== 'hidden') {
+            if (input.type === 'hidden' && input.name.includes('id')) {
+                input.value = '';
+            } else if (input.type !== 'hidden') {
                 input.value = '';
             }
         });
 
         // Update form index
         newForm.innerHTML = newForm.innerHTML.replace(/form-(\d)-/g, `form-${formCount}-`);
+        console.log("New form HTML snippet:", newForm.innerHTML.substring(0, 200));
         orderItemsDiv.appendChild(newForm);
         totalForms.value = formCount + 1;
     });

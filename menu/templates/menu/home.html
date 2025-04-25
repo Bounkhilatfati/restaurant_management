@@ -1,4 +1,44 @@
 {% extends 'menu/base.html' %}
 {% block content %}
-<p>Welcome to the digital restaurant menu and ordering system.</p>
+
+<div class="text-center py-3"> <!-- Reduced padding from py-5 to py-3 -->
+    <h1 style="color: #A0522D;">Welcome to the Restaurant Management System</h1>
+    <p class="lead mt-2" style="color: #333;"> <!-- Reduced top margin -->
+        Manage your categories, dishes, and customer orders efficiently and intuitively.
+    </p>
+</div>
+
+<div class="row text-center">
+    <div class="col-md-4 mb-3"> <!-- Reduced bottom margin from mb-4 to mb-3 -->
+        <div class="card h-100 shadow" style="background-color: #FFF8DC;">
+            <div class="card-body py-3"> <!-- Reduced padding -->
+                <i class="bi bi-tags-fill display-5 text-warning mb-2"></i> <!-- Smaller icon -->
+                <h5 class="card-title">Categories</h5>
+                <p class="card-text">Create and manage food categories for better organization.</p>
+                <a href="{% url 'category_list' %}" class="btn" style="background-color: #A0522D; color: white;">Go to Categories</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card h-100 shadow" style="background-color: #FFF8DC;">
+            <div class="card-body py-3">
+                <i class="bi bi-egg-fried display-5 text-warning mb-2"></i>
+                <h5 class="card-title">Dishes</h5>
+                <p class="card-text">Add new dishes or update existing ones with descriptions and prices.</p>
+                <a href="{% url 'dish_list' %}" class="btn" style="background-color: #A0522D; color: white;">View Dishes</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card h-100 shadow" style="background-color: #FFF8DC;">
+            <div class="card-body py-3">
+                <i class="bi bi-clipboard-data-fill display-5 text-warning mb-2"></i>
+                <h5 class="card-title">Orders</h5>
+                <p class="card-text">View all customer orders, edit them, or create new ones.</p>
+                <a href="{% url 'order_list' %}" class="btn" style="background-color: #A0522D; color: white;">Check Orders</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
