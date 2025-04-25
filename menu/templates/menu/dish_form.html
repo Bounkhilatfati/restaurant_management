@@ -1,0 +1,29 @@
+{% extends 'menu/base.html' %}
+{% block content %}
+<div class="container "> 
+    <h2 class="mb-2" style="color: #A0522D;">{% if dish %}Edit Dish{% else %}Add New Dish{% endif %}</h2>
+
+    <form method="POST" enctype="multipart/form-data" novalidate class="p-3 rounded shadow-sm" style="background-color: #FFF8DC;">
+        {% csrf_token %}
+        
+        {% for field in form %}
+            <div class="mb-1">
+                <label class="form-label mb-1">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <div class="text-danger small">{{ field.errors }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <div class="d-flex gap-1 mt-2">
+            <button type="submit" class="btn btn-sm" style="background-color: #A0522D; color: white;">
+                <i class="bi bi-check2-circle me-1"></i> {% if dish %}Update{% else %}Create{% endif %}
+            </button>
+            <a href="{% url 'dish_list' %}" class="btn btn-sm btn-outline-secondary">
+                <i class="bi bi-x-circle me-1"></i> Cancel
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}
