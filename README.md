@@ -58,7 +58,6 @@ cd restaurant-django
    ```
 
 4. Accédez à l'application à l'adresse [http://localhost:8000](http://localhost:8000)
-```
 
 
 ## 📊 Modèles de la Base de Données
