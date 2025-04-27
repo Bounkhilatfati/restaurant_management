@@ -41,7 +41,7 @@ Projet réalisé dans le cadre de l'évaluation du semestre.
 
 1. **Cloner le dépôt**
 ```bash
-git clone https://github.com/ton-username/restaurant-django.git
+git clone https://github.com/ton-username/restaurant_management.git
 cd restaurant-django
 ```
 2.Créer un environnement virtuel et installer les dépendances
