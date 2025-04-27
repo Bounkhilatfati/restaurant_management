@@ -43,19 +43,19 @@ Projet réalisé dans le cadre de l'évaluation du semestre.
 ```bash
 git clone https://github.com/ton-username/restaurant-django.git
 cd restaurant-django
-\`\`\`
+```
 2.Créer un environnement virtuel et installer les dépendances
-   \`\`\`bash
+   ```bash
    python -m venv env
    source env/bin/activate
    pip install -r requirements.txt
-   \`\`\`
+   ```
 
 3. Appliquer les migrations et lancer le serveur
-   \`\`\`bash
+   ```bash
    python manage.py migrate
    python manage.py runserver
-   \`\`\`
+   ```
 
 4. Accédez à l'application à l'adresse [http://localhost:8000](http://localhost:8000)
 ```
